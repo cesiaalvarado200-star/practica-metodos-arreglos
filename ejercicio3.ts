@@ -1,3 +1,16 @@
+// Ejercicio 3: Gestión de inscripciones a talleres
+// La UNIVO necesita organizar las inscripciones a sus talleres. Desarrolla un programa
+// en TypeScript con las interfaces Taller (id, nombre, costo y cupos disponibles) e Inscripcion
+// (tallerId y cantidad de participantes). Crea un catálogo con cuatro talleres, incluyendo uno sin cupos.
+
+// Agrega un nuevo taller mediante .push() y utiliza .filter() para obtener únicamente 
+// los que tienen cupos disponibles. Implementa una función con .find() para buscar un taller por identificador
+// y verifica que exista antes de utilizar sus datos.
+
+// Simula la inscripción a dos talleres y emplea .map() para generar un resumen con nombre del taller, cantidad de 
+// participantes y subtotal. Calcula el total en dólares mediante .reduce() y actualiza los cupos utilizando .forEach().
+// Para esta práctica, utiliza cantidades que no superen los cupos disponibles. Finalmente, muestra el resumen, el total
+// y los cupos restantes.
 
 // =============================================================
 // 1. DEFINIR LAS ESTRUCTURAS DE DATOS

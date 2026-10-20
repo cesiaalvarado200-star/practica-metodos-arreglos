@@ -1,152 +1,51 @@
-// Ejercicio 2: Gestión de turnos de pacientes
-// Un centro de salud necesita administrar su lista de espera. Desarrolla un programa en
-//  TypeScript con una interfaz Paciente que incluya identificador, nombre y motivo de consulta, 
-//  y crea un arreglo tipado con cuatro pacientes iniciales.
-
-// Agrega un paciente regular al final mediante .push() y uno de emergencia al inicio con .unshift(). Simula 
-// el llamado al consultorio retirando al primero con .shift() y la cancelación de turno retirando al último con 
-// .pop(). En ambos casos, verifica que exista un paciente antes de mostrar su nombre.
-
-// Utiliza .splice() para insertar a un paciente de atención preferencial en el índice 1 sin eliminar a nadie.
-//  Después, retira al paciente del índice 2, simulando su derivación a otro centro médico. Finalmente, usa .slice() 
-//  para obtener los próximos dos pacientes y muestra esta selección junto con la cola completa, comprobando que la copia
-//   no modifica la lista original.
-
-
- // =============================================================
- // 1. DEFINIR LA ESTRUCTURA DE DATOS
- // =============================================================
- // Declara la interfaz Paciente con los campos:
- // identificador: número; nombre: cadena; motivoConsulta: cadena.
-
-interface Paciente {
-  identificador: number;
-  nombre: string;
-  motivoConsulta: string;
+interface paciente {
+    id: number;
+    nombre: string;
+    motivo: string;
 }
 
-// =============================================================
-// 2. CREAR LA LISTA INICIAL DE PACIENTES
-// =============================================================
-// Crea un arreglo tipado con cuatro pacientes iniciales.
-// Cada paciente debe tener todos los campos de la interfaz.
-
-const colaPacientes: Paciente[] = [
-  { identificador: 1, nombre: "Ana", motivoConsulta: "Dolor de cabeza" },
-  { identificador: 2, nombre: "Carlos", motivoConsulta: "Fiebre" },
-  { identificador: 3, nombre: "María", motivoConsulta: "Consulta general" },
-  { identificador: 4, nombre: "José", motivoConsulta: "Dolor de estómago" }
+// Cola de pacientes
+let colaDeEspera: paciente[] = [
+    { id: 1, nombre: "Carlos Eduardo", motivo: "consulta General" },
+    { id: 2, nombre: "Maria Fernanda", motivo: "Revision Dental" },
+    { id: 3, nombre: "Juan Pablo", motivo: "Dolor de cabeza" },
+    { id: 4, nombre: "Ana Sofia", motivo: "Dolor lumbar" },
 ];
 
-// =============================================================
-// 3. AGREGAR UN PACIENTE AL FINAL — push()
-// =============================================================
-// Agrega un paciente regular al final de la cola.
-// push() modifica el arreglo original y devuelve su nueva longitud.
+//1- .Push: Agregar un nuevo paciente a la cola de espera
+colaDeEspera.push({ id: 5, nombre: "Luis Miguel", motivo: "Consulta de rutina" });
 
-colaPacientes.push({
-  identificador: 5,
-  nombre: "Pedro",
-  motivoConsulta: "Dolor de garganta"
-});
+//2- .unshift: Atender al primer paciente de la cola de espera
+colaDeEspera.unshift(
+    { id: 0, nombre: "Wilfredo Tobar", motivo: "Dolor de estomago" }
+);
 
-console.log("Después de push():", colaPacientes);
+//3- .shift: Atender al primer paciente de la cola de espera y eliminarlo de la lista
+const pacienteAtendido = colaDeEspera.shift();
+console.log(`Paciente atendido: ${pacienteAtendido?.nombre}, motivo: ${pacienteAtendido?.motivo}`);
 
-// =============================================================
-// 4. AGREGAR UN PACIENTE AL INICIO — unshift()
-// =============================================================
-// Agrega un paciente de emergencia al inicio de la cola.
-// unshift() modifica el arreglo original.
+//4- .pop: Eliminar al último paciente de la cola de espera
+const pacienteEliminado = colaDeEspera.pop();
+console.log(`Paciente eliminado: ${pacienteEliminado?.nombre}, motivo: ${pacienteEliminado?.motivo}`);
 
-colaPacientes.unshift({
-  identificador: 6,
-  nombre: "Laura",
-  motivoConsulta: "Emergencia respiratoria"
-});
+//5- Crear un nuevo paciente y agregarlo a la cola de espera
+const pacientePreseferencial: paciente = {
+    id: 7, nombre: "Pedro Pablo", motivo: "Consulta de rutina"
+};
 
-console.log("Después de unshift():", colaPacientes);
+//insertar paciente preferencial en la posición 1 con splice
+//el 1 indica la posición donde se insertará el nuevo paciente y el 0 indica que no se eliminará ningún elemento
+//pacientePreseferencial se insertará en la posición 1 y los demás pacientes se moverán una posición hacia atrás
+colaDeEspera.splice(1, 0, pacientePreseferencial);
 
-// =============================================================
-// 5. LLAMAR AL PRIMER PACIENTE — shift()
-// =============================================================
-// Retira al primer paciente de la cola.
-// Comprueba que exista antes de mostrar su nombre.
-// shift() devuelve el paciente retirado o undefined si está vacío.
+//El paciente del indice 3 se fue
+//el 3 indica la posición del paciente que se eliminará y el 1 indica que se eliminará un solo elemento 
+colaDeEspera.splice(3, 1);
 
-const pacienteAtendido: Paciente | undefined = colaPacientes.shift();
+//.slice: Obtener una copia de la cola de espera sin modificar el arreglo original
+//El 0 indica la posición inicial y el 2 indica la posición final (no incluida) de los elementos que se copiarán
+const proximosPacientes: paciente[] = colaDeEspera.slice(0, 2);
 
-if (pacienteAtendido) {
-  console.log("Paciente atendido:", pacienteAtendido.nombre);
-} else {
-  console.log("No hay pacientes para atender.");
-}
-
-// =============================================================
-// 6. CANCELAR EL ÚLTIMO TURNO — pop()
-// =============================================================
-// Retira al último paciente de la cola.
-// Comprueba que exista antes de mostrar su nombre.
-
-const pacienteCancelado: Paciente | undefined = colaPacientes.pop();
-
-if (pacienteCancelado) {
-  console.log("Turno cancelado:", pacienteCancelado.nombre);
-} else {
-  console.log("No hay turnos para cancelar.");
-}
-
-// =============================================================
-// 7. INSERTAR ATENCIÓN PREFERENCIAL — splice()
-// =============================================================
-// Inserta un paciente preferencial en el índice 1.
-// El segundo argumento es cero porque no se elimina ningún elemento.
-// splice() modifica el arreglo original.
-
-colaPacientes.splice(1, 0, {
-  identificador: 7,
-  nombre: "Sofía",
-  motivoConsulta: "Atención preferencial"
-});
-
-console.log("Después de insertar al paciente preferencial:", colaPacientes);
-
-// =============================================================
-// 8. DERIVAR UN PACIENTE — splice()
-// =============================================================
-// Retira al paciente ubicado en el índice 2.
-// Se elimina un elemento para simular su derivación a otro centro.
-
-const pacienteDerivado: Paciente[] = colaPacientes.splice(2, 1);
-
-if (pacienteDerivado.length > 0) {
-  console.log("Paciente derivado:", pacienteDerivado[0].nombre);
-} else {
-  console.log("No hay paciente en ese índice.");
-}
-
-// =============================================================
-// 9. OBTENER LOS PRÓXIMOS DOS PACIENTES — slice()
-// =============================================================
-// Obtiene dos pacientes desde el índice 0.
-// slice() crea una copia y no modifica la cola original.
-
-const proximosPacientes: Paciente[] = colaPacientes.slice(0, 2);
-
-console.log("Próximos dos pacientes:", proximosPacientes);
-
-// =============================================================
-// 10. MOSTRAR Y COMPROBAR LOS RESULTADOS
-// =============================================================
-// Muestra la cola completa y la selección de dos pacientes.
-// slice() no elimina ni agrega pacientes a la cola original.
-
-console.log("Cola completa:", colaPacientes);
-console.log("Selección de dos pacientes:", proximosPacientes);
-
-// =============================================================
-// 11. EXPLICAR LAS OPERACIONES
-// =============================================================
-// push() agrega al final y unshift() agrega al inicio.
-// shift() retira al primero y pop() retira al último.
-// splice() inserta o elimina elementos de la cola original.
-// slice() obtiene una copia sin modificar la cola original.
+//Imprimir la lista de pacientes en la cola de espera
+console.log("\nLista de pacientes en la cola de espera:");
+console.log(colaDeEspera); 

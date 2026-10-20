@@ -1,9 +1,7 @@
-// =============================================================
-// 1. DEFINIR LAS ESTRUCTURAS DE DATOS
-// =============================================================
-// Declara la interfaz Taller con los campos:
-// id, nombre, costo y cuposDisponibles.
-// Declara Inscripcion con tallerId y cantidadParticipantes.
+// Ejercicio 3: Gestión de inscripciones a talleres
+// La UNIVO necesita organizar las inscripciones a sus talleres. Desarrolla un programa
+// en TypeScript con las interfaces Taller (id, nombre, costo y cupos disponibles) e Inscripcion
+// (tallerId y cantidad de participantes). Crea un catálogo con cuatro talleres, incluyendo uno sin cupos.
 // =============================================================
 // 2. CREAR EL CATÁLOGO INICIAL
 // =============================================================
